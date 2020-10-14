@@ -34,16 +34,16 @@ open class BaseActivity : Activity(), INetView {
         mCompositeDisposable.add(subscription)
     }
 
+    override fun dispose() {
+        mCompositeDisposable.dispose()
+    }
+
     fun Disposable.addDispose() {
         mCompositeDisposable.add(this)
     }
 
     fun Disposable.addLifecycle() {
         mCompositeDisposable.add(this)
-    }
-
-    fun dispose() {
-        mCompositeDisposable.dispose()
     }
 
     override fun onDestroy() {

@@ -17,6 +17,12 @@ import io.reactivex.Flowable;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
+/**
+ * @date 创建时间:2020/10/14
+ * @author AS
+ * @description java使用
+ */
+
 public class BBActivity extends BaseActivity {
 
     @Override
@@ -24,7 +30,7 @@ public class BBActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Flowable<BaseHttpBean<List<ResultBean>>> flowable = getMyService().getRoomLiveList(new HashMap<String, String>());
-        ApiUtils.execute(flowable, this, 0, new Function1<List<ResultBean>, Unit>() {
+        execute(flowable, 0, new Function1<List<ResultBean>, Unit>() {
             @Override
             public Unit invoke(List<ResultBean> resultBeans) {
                 return null;
