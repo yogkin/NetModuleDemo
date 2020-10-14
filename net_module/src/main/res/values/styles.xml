@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="custom_dialog_dim_enabled">
+        <!-- 没有边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 设置dialog的背景 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 让dialog浮现在Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 背景是否半透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 是否模糊 -->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>
