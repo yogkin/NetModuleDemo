@@ -9,7 +9,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         ApiFactory.errorCode = NetError()
-        ApiFactory.handleCode = HttpHandleCode.errorCode
+        ApiFactory.handleCode = HttpHandleCode.handleCode
     }
 
 

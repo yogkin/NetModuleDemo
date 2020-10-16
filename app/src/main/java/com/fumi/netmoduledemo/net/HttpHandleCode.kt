@@ -3,7 +3,7 @@ package com.fumi.netmoduledemo.net
 import com.fumi.net_module.bean.BaseHttpBean
 
 object HttpHandleCode {
-    val errorCode = { httpCode: Int, bean: BaseHttpBean<*> ->
+    val handleCode = { httpCode: Int, bean: BaseHttpBean<*> ->
         when (httpCode) {
             0, 200 -> bean.data
 //                -4 -> throw AccountPermissionException()
