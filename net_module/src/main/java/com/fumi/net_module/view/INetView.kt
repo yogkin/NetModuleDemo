@@ -24,24 +24,54 @@ interface INetView {
     fun addDisposable(subscription: Disposable)
 
     /**
-     * 主动取消订阅
+     * 取消订阅
      */
     fun dispose()
 
-    fun <T> Flowable<BaseHttpBean<T>>.execute( successCode: Int = 0, function: (T) -> Unit): Any {
-        val subscribe = handle(successCode).async().loading(this@INetView)
-                .subscribe(
-                        { function.invoke(it) },
-                        { e -> ApiFactory.handleCode.handleCode(this@INetView, e) })
-        return this@INetView.addDisposable(subscribe)
+
+    fun <T> Flowable<out BaseHttpBean<T>>.execute(function: (T) -> Unit) {
+        val subscribe = handle().async().loading(this@INetView)
+            .subscribe(
+                { function.invoke(it) },
+                { e -> ApiFactory.errorCode.handleCode(this@INetView, e) })
+        this@INetView.addDisposable(subscribe)
     }
 
 
-    fun <T> Flowable<BaseHttpBean<T>>.executeNoLoading(function: (T) -> Unit): Any {
-        return handle().async()
-                .subscribe(
-                        { function.invoke(it) },
-                        { e -> ApiFactory.handleCode.handleCode(this@INetView, e) })
+    fun <T> Flowable<T>.executeNoHandle(function: (T) -> Unit) {
+        val subscribe = async().loading(this@INetView)
+            .subscribe(
+                { function.invoke(it) },
+                { e -> ApiFactory.errorCode.handleCode(this@INetView, e) })
+        this@INetView.addDisposable(subscribe)
+    }
+
+
+    fun <T> Flowable<out BaseHttpBean<T>>.executeNoLoading(function: (T) -> Unit) {
+        val subscribe = handle().async()
+            .subscribe(
+                { function.invoke(it) },
+                { e -> ApiFactory.errorCode.handleCode(this@INetView, e) })
+        this@INetView.addDisposable(subscribe)
+    }
+
+    fun <T> Flowable<out BaseHttpBean<T>>.execute(function: (T) -> Unit, errorHandler: () -> Unit) {
+        val subscribe = handle().async()
+            .subscribe(
+                { function.invoke(it) },
+                { e -> ApiFactory.errorCode.handleCode(this@INetView, e);errorHandler.invoke() })
+        this@INetView.addDisposable(subscribe)
+    }
+
+    fun <T> Flowable<out BaseHttpBean<T>>.executeNoLoading(
+        function: (T) -> Unit,
+        errorHandler: () -> Unit
+    ) {
+        val subscribe = handle().async()
+            .subscribe(
+                { function.invoke(it) },
+                { e -> ApiFactory.errorCode.handleCode(this@INetView, e);errorHandler.invoke() })
+        this@INetView.addDisposable(subscribe)
     }
 
 }

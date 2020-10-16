@@ -10,15 +10,16 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @author AS
  * @description kotlin使用
  */
-class MainActivity : BaseActivity() {
+class MainActivity : SimpleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btn_click.setOnClickListener {
-            myService.getRoomLiveList(mapOf()).execute {
-                Log.d("MainActivity", it.toString())
-            }
+        btn_mvc.setOnClickListener {
+            MVCActivity.open(this)
+        }
+        btn_mvp.setOnClickListener {
+            MVPActivity.open(this)
         }
     }
 
