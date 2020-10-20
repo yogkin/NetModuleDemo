@@ -8,8 +8,8 @@ import com.fumi.netmoduledemo.net.NetError
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        ApiFactory.errorCode = NetError()
-        ApiFactory.handleCode = HttpHandleCode.handleCode
+//        ApiFactory.errorCode = NetError()
+//        ApiFactory.handleCode = HttpHandleCode.handleCode
     }
 
 

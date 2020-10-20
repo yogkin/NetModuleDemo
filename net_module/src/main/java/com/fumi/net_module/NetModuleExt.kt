@@ -26,17 +26,17 @@ fun <T> Flowable<out BaseHttpBean<T>>.asyncAndHandle(): Flowable<T> {
 }
 
 fun <T> Flowable<T>.loading(netView: INetView) =
-        doOnSubscribe { netView.showLoading() }.doFinally { netView.dismissLoading() }
+    doOnSubscribe { netView.showLoading() }.doFinally { netView.dismissLoading() }
 
 fun <T> Flowable<T>.async() =
-        subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+    subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
 
 //下载相关
 fun <T> Flowable<T>.download(netView: INetView, function: (T) -> Unit): Any {
     val subscribe = async().loading(netView)
-            .subscribe(
-                    { function.invoke(it) },
-                    { e -> errorCode.handleCode(netView, e) })
+        .subscribe(
+            { function.invoke(it) },
+            { e -> errorCode.handleCode(netView, e) })
     return netView.addDisposable(subscribe)
 }

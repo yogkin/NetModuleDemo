@@ -9,6 +9,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.IllegalArgumentException
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
 
@@ -19,7 +20,12 @@ import java.util.concurrent.TimeUnit
  * @description ApiFactory
  */
 
-inline fun <reified T> ApiFactory.create(baseUrl: String? = null, debug: Boolean = false, timeOut: Long = 60, interceptor: Interceptor? = null): T = create(T::class.java, baseUrl, debug, timeOut, interceptor)
+inline fun <reified T> ApiFactory.create(
+    baseUrl: String? = null,
+    debug: Boolean = false,
+    timeOut: Long = 60,
+    interceptor: Interceptor? = null
+): T = create(T::class.java, baseUrl, debug, timeOut, interceptor)
 
 
 object ApiFactory {
@@ -30,11 +36,26 @@ object ApiFactory {
      */
     var errorCode: IAPIErrorCode = APIErrorCode()
 
-    var handleCode: (Int, BaseHttpBean<*>) -> Any? = { httpCode: Int, httpBean: BaseHttpBean<*> -> Any() }
+    /**
+     * 默认200为成功
+     */
+    var handleCode: (Int, BaseHttpBean<*>) -> Any? =
+        { httpCode: Int, httpBean: BaseHttpBean<*> ->
+            if (httpCode == 200 || httpCode == 0) {
+                httpBean.data
+            } else {
+                throw IllegalArgumentException("解析错误")
+            }
+        }
 
 
-
-    fun <T> create(clazz: Class<T>, baseUrl: String? = null, debug: Boolean = false, timeOut: Long = 60, interceptor: Interceptor? = null): T {
+    fun <T> create(
+        clazz: Class<T>,
+        baseUrl: String? = null,
+        debug: Boolean = false,
+        timeOut: Long = 60,
+        interceptor: Interceptor? = null
+    ): T {
 
         val builder = OkHttpClient.Builder()
         if (debug) {
@@ -46,14 +67,14 @@ object ApiFactory {
         }
         interceptor?.also { builder.addInterceptor(it) }
         builder.connectTimeout(timeOut, TimeUnit.SECONDS)
-                .readTimeout(timeOut, TimeUnit.SECONDS)
-                .writeTimeout(timeOut, TimeUnit.SECONDS)
+            .readTimeout(timeOut, TimeUnit.SECONDS)
+            .writeTimeout(timeOut, TimeUnit.SECONDS)
 
         val retrofitBuilder = Retrofit.Builder()
-                .baseUrl(baseUrl ?: baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(builder.build())
+            .baseUrl(baseUrl ?: "")
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(builder.build())
         return retrofitBuilder.build().create(clazz)
     }
 }
