@@ -25,7 +25,7 @@ myService.getRoomLiveList(mapOf()).execute(200) {
 ``` kotlin
   interface MyService {
     /**
-     * 获取直播间列表
+     * 获取列表
      */
 
     @GET("/wxarticle/chapters/json")
