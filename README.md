@@ -1,4 +1,18 @@
 # NetModuleDemo
+使用：
+```kotlin
+allprojects {
+repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+	}
+}
+```
+```kotlin
+dependencies {
+    implementation 'com.github.yogkin:NetModuleDemo:1.0.1'
+}
+```
 该网络库优点：
 1. 可以完全独立
 2. 在任意自定义`view`使用，跟`presenter`完全分离，减少原来`presenter`大量拓展代码
