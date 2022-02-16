@@ -9,7 +9,7 @@ import com.fumi.net_module.R
 
 /**
  * @date 创建时间:2020/10/20
- * @author AS
+ * @author czm
  * @description 提供一个简单的loading类
  */
 class NetAlertDialog : AlertDialog {

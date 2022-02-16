@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_mvp.*
 
 /**
  * @date 创建时间:2020/10/16
- * @author AS
+ * @author czm
  * @description mvp使用
  */
 class MVPActivity : BaseActivity(), BBView {

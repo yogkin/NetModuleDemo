@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * @date 创建时间:2020/10/14
- * @author AS
+ * @author czm
  * @description kotlin使用
  */
 class MainActivity : SimpleActivity() {

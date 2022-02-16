@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_mvc.*
 
 /**
  * @date 创建时间:2020/10/16
- * @author AS
+ * @author czm
  * @description mvc使用
  */
 class MVCActivity : SimpleActivity() {

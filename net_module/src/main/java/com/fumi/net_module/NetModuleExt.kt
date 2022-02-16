@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 
 /**
  * @date 创建时间:2020/10/12
- * @author AS
+ * @author czm
  * @description 拓展类
  */
 fun <T> Flowable<out BaseHttpBean<T>>.handle(): Flowable<T> {
